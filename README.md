@@ -1,4 +1,4 @@
-The dataset includes the following files:
+The data set includes the following files:
 
 - 'UCI Har Dataset' folder: comprises the raw data and can be accessed through the url link below. The explanation of the files in this folder can be found in the README.txt file inside it. The section Data Analysis in 'Codebook.md' also sheds some light into the information in each file.
 
