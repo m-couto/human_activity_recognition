@@ -1,7 +1,6 @@
 # Getting and Cleaning Data Course Project
 
-setwd("~/Desktop/Data Science course/3. Getting and Cleaning Data/Project/UCI HAR Dataset")
-# my local directory of the project data
+setwd("~/UCI HAR Dataset")
 
 
 
