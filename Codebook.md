@@ -1,34 +1,28 @@
 # Study design
 
-This project consisted on cleaning data that had previously been collected from the accelerometers of the Samsung Galaxy S smartphone during an experiment on human activity recognition using smartphones data set.
+This project consisted on cleaning data that had previously been collected from the accelerometers of the Samsung Galaxy S smartphone during an experiment on human activity recognition using smartphones data set. This data can be accessed using the following link:
 
-This data can be accessed using the following link:
-
-https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip
+<https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>
 
 Said experiment was carried out with 30 subjects (each identified by a subject number between 1 and 30), each of which performed six activities (laying, sitting, standing, walking, walking upstairs, walking downstairs) wearing a smartphone (Samsung Galaxy S II) on the waist. A full description of this experiment can be found at the following website:
 
-http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+<http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones>
 
 #  Code book
-
-describes each variable and its units
 
 This data contains the following variables:
 
 1. subjects - a number between 1 and 30 that identifies each of the 30 subjects of the experiment;
 
-2. activities - a number between 1 and 6 identifying each of the 6 activities the subjects performed. The correspondence can be found in activity_labels.txt.
+2. activities - a number between 1 and 6 identifying each of the 6 activities the subjects performed. The correspondence can be found in 'activity\_labels.txt'.
 
-3. Several other features: the raw data contains many variables which are statistical measurements of signals. A comprehensive list can be found in document features_info.txt. During my analysis I focused on the variables containing the words "mean" and "std" (aka standard deviation), totalling a number of 79 features.
+3. Several other features: the raw data consists of inumerous statistical measurements obtained from the experiments. A comprehensive list can be found in 'features\_info.txt'. During my analysis I focused on those variables that contained the words "mean" and "std" (i.e. standard deviation). As far as I understand, the Samsung data did not describe the units of these features.
 
-Unfortunately I could not find information in the raw data, regarding the units of such features.
-
-More info on these variables can be found in 'features_info.txt'.
+The raw data is distributed throughout several files. The following section helps to better understand the information in each file.
 
 # Data analysis summary
 
-In this section I give a brief description of the analysis I have done on the raw data, together with the R code contained in file 'run\_analysis.R'. My analysis of the tidy data consisted on the following steps:
+In this section I give a brief description of the analysis I have done on the raw data, together with the R code contained in file 'run\_analysis.R'. My analysis of the raw data consisted on the following steps:
 
 **Step 1.** Merge the training and the test sets to create one data set.
 
@@ -59,7 +53,7 @@ This table (named DT in 'run\_analysis.R') contains all the data from the experi
 
 **Step 2.** Extract only the measurements on the mean and standard deviation for each measurement.
 
-I focussed only on the features of the previous data set whose names contained the expressions "mean" and "std" (that is, standard deviation); check 'features.txt' for feature names. These correspond to means and standard deviations of many measurements obtained during the experiments, and in some cases mean frequencies as well.
+I focussed solely on the features of the previous data set whose names contained the expressions "mean" and "std" (that is, standard deviation); check 'features.txt' for feature names. These correspond to means and standard deviations of many measurements obtained during the experiments, and in some cases mean frequencies as well.
 
 	features <- read.table('features.txt')
 	features <- as.character(features[,2])
@@ -69,7 +63,7 @@ I focussed only on the features of the previous data set whose names contained t
 
 **Step 3.** Use descriptive activity names to name the activities in the data set
 
-Next, rather than representing each activity by a number (1-6), we represent it by the activity name (walking, walking\_upstairs, walking\_downstairs, sitting, standing, laying, respectively); check 'activity\_labels.txt'. 
+Next, rather than representing each activity by a number (1-6) in the table, we represent it by corresponding activity name (walking, walking\_upstairs, walking\_downstairs, sitting, standing, laying, respectively); check 'activity\_labels.txt'. 
 
 	dic <- read.table('activity_labels.txt')
 	DT[,2] <- sapply( DT$activities, function(x) dic[x,2] )
@@ -77,14 +71,14 @@ Next, rather than representing each activity by a number (1-6), we represent it 
 	
 **Step 4.** Appropriately label the data set with descriptive variable names.
 
-Having already names the columns for the subject and the activities in step 1, I then named all other columns which correspond to the experiment features.
+Having already named the columns for the subject and the activities in step 1, I then named all other columns which correspond to the experiment features.
 
 	names(DT)[3:ncol(DT)] <- features[index]
 
 
 **Step 5.** From the data set in step 4, create a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-After cleaning the data set and focussing on the variables we wanted, I created a new data set that contained the average of each experiment feature for each subject and for each activity. Therefore, this new table contains 30 subjects x 6 activities = 180 rows and the same number of columns with the same labels as before.
+After cleaning the data set and focussing on the required variables, I created a new data set that contained the average of each experiment feature for each subject and for each activity. Therefore, this new table contains 30 subjects x 6 activities = 180 rows and the same number of columns with the same labels as before.
 
 	library(dplyr)
 	
